@@ -94,7 +94,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/28/navicate%E6%B8%85%E9%99%A4%E6%B3%A8%E5%86%8C%E8%A1%A8%EF%BC%8C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E8%AF%95%E7%94%A8/" data-id="ckxq7jnwj00041wvldod2bu77" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/28/navicate%E6%B8%85%E9%99%A4%E6%B3%A8%E5%86%8C%E8%A1%A8%EF%BC%8C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E8%AF%95%E7%94%A8/" data-id="ckxq8gkne00036cvl3hnk9lnd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -126,13 +126,171 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/1.jpg" alt="添加剂"></p>
-<p>sahfjhsdgsdhghb 2021126gh</p>
+        <p>1 注册一个github账号,设置用户名和邮箱,创建ssh密钥</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">-- 配置用户名和邮箱
+<span class="token function">git</span> config --global user.name <span class="token string">"GitHub 用户名"</span>
+<span class="token function">git</span> config --global user.email <span class="token string">"GitHub 邮箱"</span>
+-- 创建ssh 私钥  一路回车即可
+ssh-keygen -t rsa -C <span class="token string">"上面配置的邮箱"</span>   
+-- 将 ~/.ssh/id_rsa.pub 文件中的公钥复制<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>2 点击 setting ，添加ssh key，title随便取个名字，然后将刚才粘贴的公钥放在里面</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/1.jpg" alt="img"></p>
+<p>3 验证连接</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">使用git工具，输入ssh -T git@github.com,出现are you sure you want <span class="token punctuation">..</span>. 输入回车即可  返回successfully表示连接成功
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>》
+Hi follow-the-heard<span class="token operator">!</span> You've successfully authenticated, but GitHub does not provide shell access.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>4 创建一个repository，仓库的命名是 github用户名.github.io</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/2.png" alt="img"></p>
+<p>5 安装node.js </p>
+<p>下载官网地址  <a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/">https://nodejs.org/zh-cn/</a>  </p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/3.png" alt="img"></p>
+<p> 下载下来是一个.msi文件</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/4.png" alt="img"></p>
+<p>双击后一路next即可完成安装</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/5.png" alt="img"></p>
+<p>6 安装hexo</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">-- 在windows中打开cmd命令窗口，安装hexo本地环境
+<span class="token function">npm</span> <span class="token function">install</span> -g hexo
+-- 检查hexo环境是否安装成功
+输入 hexo  列出一系列的使用方法，就说明hexo环境安装成功了<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>7 windows中创建一个目录MyBlog ，在该目录下打开cmd</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/6.png" alt="img"></p>
+<p>并在cmd中执行下面的命令</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">-- 初始化hexo博客工程
+hexo init
+-- 编译博客工程
+hexo g
+-- 在本地启动hexo服务
+hexo s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/7.png" alt="img"></p>
+<p>在浏览器中访问 <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a> 就可以看到hexo原始页面</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/8.png" alt="img"></p>
+<p>需要将博客部署到github远程服务器还需要</p>
+<p>1 安装hexo部署插件</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">npm</span> <span class="token function">install</span> hexo-develoyer-git --save<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>2 修改配置文件:位于项目MyBlog根目录下的_config.yml</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/9.png" alt="img"></p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">repository: git@github.com:username/git仓库地址
+type： <span class="token function">git</span>
+barnch: master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>3 重新编译，然后部署</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">hexo g
+hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>4 浏览器中访问 <a target="_blank" rel="noopener" href="https://username.github.io/">https://username.github.io</a> </p>
+<p>到这里hexo的博客就搭建并且部署完成了</p>
+<p>更换hexo主题的教程：</p>
+<p>hexo主题下载网站： <a target="_blank" rel="noopener" href="https://hexo.io/themes/index.html">https://hexo.io/themes/index.html</a> </p>
+<p>目前有300多种博客模板供选择</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/10.png" alt="img"></p>
+<p>两种方式可供下载 </p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token number">1</span> <span class="token function">git</span> clone 复制链接  
+<span class="token number">2</span> 下载zip包，然后解压到themes目录下使用<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/11.png" alt="img"></p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/12.png" alt="img"></p>
+<p>修改配置文件中的主题 _config.yml</p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/13.png" alt="img"></p>
+<p>清除缓存文件（db.json）和已生成的静态文件（public）</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">-- 当更换主题后，本地是可以看到更换后主题的效果，但是部署上去之后，会发现云端还是之前的主题，就可以执行下面的命令
+hexo clean<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>生成静态文件</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">hexo g  或 hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>部署博客</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">hexo d 或 hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>重新访问 <a target="_blank" rel="noopener" href="https://username.github.io,ji'ke/">https://username.github.io</a> 即可看到新的博客主题</p>
+<p>创建文章</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">hexo n 文章title
+ <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>为了在文章中能插入图片，需要做下面的事情</p>
+<p>1 将配置文件中的参数修改如下‘</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">-- 该参数设置为true后，创建文章时，会创建一个和文章同名的文件夹
+post_asset_folder: <span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>2 安装插件并替换js内部的代码</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token number">1</span> 安装插件
+<span class="token function">npm</span> <span class="token function">install</span> https://github.com/CodeFalling/hexo-asset-image --save
+<span class="token number">2</span> 这个插件的代码有bug,需要将/node_modules/hexo-asset-image/index.js中的内容替换成下面的
+<span class="token string">'use strict'</span><span class="token punctuation">;</span>
+var cheerio <span class="token operator">=</span> require<span class="token punctuation">(</span><span class="token string">'cheerio'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string
+<span class="token keyword">function</span> getPosition<span class="token punctuation">(</span>str, m, i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token builtin class-name">return</span> str.split<span class="token punctuation">(</span>m, i<span class="token punctuation">)</span>.join<span class="token punctuation">(</span>m<span class="token punctuation">)</span>.length<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+var version <span class="token operator">=</span> String<span class="token punctuation">(</span>hexo.version<span class="token punctuation">)</span>.split<span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+hexo.extend.filter.register<span class="token punctuation">(</span><span class="token string">'after_post_render'</span>, function<span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  var config <span class="token operator">=</span> hexo.config<span class="token punctuation">;</span>
+  if<span class="token punctuation">(</span>config.post_asset_folder<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        var <span class="token function">link</span> <span class="token operator">=</span> data.permalink<span class="token punctuation">;</span>
+    if<span class="token punctuation">(</span>version.length <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> Number<span class="token punctuation">(</span>version<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation">)</span>
+       var beginPos <span class="token operator">=</span> getPosition<span class="token punctuation">(</span>link, <span class="token string">'/'</span>, <span class="token number">1</span><span class="token punctuation">)</span> + <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+       var beginPos <span class="token operator">=</span> getPosition<span class="token punctuation">(</span>link, <span class="token string">'/'</span>, <span class="token number">3</span><span class="token punctuation">)</span> + <span class="token number">1</span><span class="token punctuation">;</span>
+    // In hexo <span class="token number">3.1</span>.1, the permalink of <span class="token string">"about"</span> page is like <span class="token string">".../about/index.html"</span><span class="token builtin class-name">.</span>
+    var endPos <span class="token operator">=</span> link.lastIndexOf<span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span> + <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token function">link</span> <span class="token operator">=</span> link.substring<span class="token punctuation">(</span>beginPos, endPos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    var toprocess <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'excerpt'</span>, <span class="token string">'more'</span>, <span class="token string">'content'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    for<span class="token punctuation">(</span>var i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> toprocess.length<span class="token punctuation">;</span> i++<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+      var key <span class="token operator">=</span> toprocess<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+ 
+      var $ <span class="token operator">=</span> cheerio.load<span class="token punctuation">(</span>data<span class="token punctuation">[</span>key<span class="token punctuation">]</span>, <span class="token punctuation">&#123;</span>
+        ignoreWhitespace: false,
+        xmlMode: false,
+        lowerCaseTags: false,
+        decodeEntities: <span class="token boolean">false</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token variable"><span class="token variable">$(</span>'img'<span class="token variable">)</span></span>.each<span class="token punctuation">(</span><span class="token function-name function">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable"><span class="token variable">$(</span>this<span class="token variable">)</span></span>.attr<span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">))</span><span class="token punctuation">&#123;</span>
+            // For windows style path, we replace <span class="token string">'\'</span> to <span class="token string">'/'</span><span class="token builtin class-name">.</span>
+            var src <span class="token operator">=</span> <span class="token variable"><span class="token variable">$(</span>this<span class="token variable">)</span></span>.attr<span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">)</span>.replace<span class="token punctuation">(</span><span class="token string">'\\'</span>, <span class="token string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            if<span class="token punctuation">(</span><span class="token operator">!</span>/http<span class="token punctuation">[</span>s<span class="token punctuation">]</span>*.*<span class="token operator">|</span><span class="token punctuation">\</span>/<span class="token punctuation">\</span>/.*/.test<span class="token punctuation">(</span>src<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+               <span class="token operator">!</span>/^<span class="token punctuation">\</span>s*<span class="token punctuation">\</span>//.test<span class="token punctuation">(</span>src<span class="token punctuation">))</span> <span class="token punctuation">&#123;</span>
+              // For <span class="token string">"about"</span> page, the first part of <span class="token string">"src"</span> can<span class="token string">'t be removed.
+              // In addition, to support multi-level local directory.
+              var linkArray = link.split('</span>/<span class="token string">').filter(function(elem)&#123;
+                return elem != '</span>'<span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              var srcArray <span class="token operator">=</span> src.split<span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>.filter<span class="token punctuation">(</span>function<span class="token punctuation">(</span>elem<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token builtin class-name">return</span> elem <span class="token operator">!=</span> <span class="token string">''</span> <span class="token operator">&amp;&amp;</span> elem <span class="token operator">!=</span> <span class="token string">'.'</span><span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              if<span class="token punctuation">(</span>srcArray.length <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">)</span>
+                srcArray.shift<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              src <span class="token operator">=</span> srcArray.join<span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token variable"><span class="token variable">$(</span>this<span class="token variable">)</span></span>.attr<span class="token punctuation">(</span><span class="token string">'src'</span>, config.root + <span class="token function">link</span> + src<span class="token punctuation">)</span><span class="token punctuation">;</span>
+              console.info<span class="token operator">&amp;&amp;</span>console.info<span class="token punctuation">(</span><span class="token string">"update link as:-->"</span>+config.root + <span class="token function">link</span> + src<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>else<span class="token punctuation">&#123;</span>
+            console.info<span class="token operator">&amp;&amp;</span>console.info<span class="token punctuation">(</span><span class="token string">"no src attr, skipped..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            console.info<span class="token operator">&amp;&amp;</span>console.info<span class="token punctuation">(</span><span class="token variable"><span class="token variable">$(</span>this<span class="token variable">)</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      data<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> $.html<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token number">3</span> 打开_config.yml文件，修改下述内容
+post_asset_folder: <span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>====&gt; 博客中的图片放在和文章同名的文件夹内，并且引用的时候这样：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">!</span><span class="token punctuation">[</span>图片描述<span class="token punctuation">]</span><span class="token punctuation">(</span>./图片名称<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/14.png"></p>
+<p><img src="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/15.png"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/" data-id="ckxq7jnwh00031wvl022ocvo5" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/" data-id="ckxq8gknh00046cvldlpjga4i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -182,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/22/hello-world/" data-id="ckxq7jnwe00021wvl4yfyadgp" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/22/hello-world/" data-id="ckxq8gknb00016cvla8t8gtds" class="article-share-link">Share</a>
       
       
     </footer>
