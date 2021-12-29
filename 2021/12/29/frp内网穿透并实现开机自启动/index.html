@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>navicate清除注册表，重新启动试用 |  Hexo</title>
+      <title>frp内网穿透并实现开机自启动 |  Hexo</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-navicate清除注册表，重新启动试用"
+  id="post-frp内网穿透并实现开机自启动"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  navicate清除注册表，重新启动试用
+  frp内网穿透并实现开机自启动
 </h1>
  
 
@@ -73,15 +73,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2021/12/28/navicate%E6%B8%85%E9%99%A4%E6%B3%A8%E5%86%8C%E8%A1%A8%EF%BC%8C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E8%AF%95%E7%94%A8/" class="article-date">
-  <time datetime="2021-12-28T14:30:59.000Z" itemprop="datePublished">2021-12-28</time>
+      <a href="/2021/12/29/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/" class="article-date">
+  <time datetime="2021-12-29T12:38:51.000Z" itemprop="datePublished">2021-12-29</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">73</span>
+            <span class="post-count">851</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">4 min</span>
         </span>
     </span>
 </div>
@@ -103,11 +103,108 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>1 win + R  输入 regedit 打开注册表</p>
-<p>2 删除HKEY_CURRENT_USER\SOFTWARE\PremiumSoft\Data这个目录</p>
-<p>3 进入这个目录HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID，打开下面的一级目录，如果包含info的，将整个一级目录删除</p>
-<p>===&gt; 最后重新打开navicate,就可以重新试用了</p>
- 
+  <p>本文中使用到的端口记得在阿里云服务器的安全组中开放该端口</p>
+<p>在公网服务器(阿里云服务器)上执行下面的命令，安装frp</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">wget https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp&#x2F;releases&#x2F;download&#x2F;v0.38.0&#x2F;frp_0.38.0_linux_arm64.tar.gz
+-- 解压到&#x2F;usr&#x2F;local
+cd &#x2F;usr&#x2F;local
+tar -zxvf frp_0.38.0_linux_amd64.tar.gz
+-- 开始编辑frps.ini
+vi frps.ini
+&#x3D;&#x3D;&#x3D;&#x3D;&gt;
+[common]
+bind_port &#x3D; 5001
+vhost_http_port &#x3D; 3389
+vhost_https_port &#x3D; 3399
+auto_token &#x3D; ******  #这里是自己定义的密钥
+dashboard_addr &#x3D; 0.0.0.0
+dashboard_port &#x3D; 7500
+dashboard_user &#x3D; admin
+dashboard_pwd &#x3D; admin
+    
+-- 启动frps服务
+.&#x2F;frps -c .&#x2F;frps.ini
+&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt;后台启动
+nohup .&#x2F;frps -c .&#x2F;frps.ini &amp;
+安装frp客户端  frpc
+-- 编辑frpc.ini
+vi frpc.ini
+&#x3D;&#x3D;&#x3D;&#x3D;&gt;  每一行后面的空格记得注释都要去掉，否则可能会报错
+[common]
+server_addr &#x3D; 公网ip   
+server_port &#x3D; 5001
+auto_token &#x3D; ******  #这里是自己定义的密钥，和上面的需保持一致
+admin_addr &#x3D; 0.0.0.0
+admin_port &#x3D; 7500
+admin_user &#x3D; admin
+admin_pwd &#x3D; admin
+log_file &#x3D; .&#x2F;frpc.log
+log_level &#x3D; info
+custom_domains &#x3D; www.letitgo.club
+[http-info]
+type &#x3D; http
+local_ip &#x3D; 内网服务器ip
+local_port &#x3D; 80
+remote_port &#x3D; 3389
+custom_domains &#x3D; http.letitgo.club
+[https-info]
+type &#x3D; https
+local_ip &#x3D; 内网服务器ip
+local_port &#x3D; 8080
+remote_port &#x3D; 3399
+custom_domains &#x3D; https.letitgo.club
+[ssh-info]
+type &#x3D; tcp
+local_ip &#x3D; 127.0.0.1
+local_port &#x3D; 22
+remote_port &#x3D; 6000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>实现frp的自启动，写一个frpc后台启动的脚本文件 start_frp.sh 在dell服务器(需要穿透的内网服务器)，文件放在/home/boot_file目录下</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
+sudo nohup  &#x2F;home&#x2F;software&#x2F;frp_0.38.0_linux_amd64&#x2F;frpc -c  &#x2F;home&#x2F;software&#x2F;frp_0.38.0_linux_amd64&#x2F;frpc.ini &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>在服务器的/etc/rc.d目录中的rc.local文件中添加下面的内容</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
+# THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES
+#
+# It is highly advisable to create own systemd services or udev rules
+# to run scripts during boot instead of using this file.
+#
+# In contrast to previous versions due to parallel execution during boot
+# this script will NOT be run after all other services.
+#
+# Please note that you must run &#39;chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local&#39; to ensure
+# that this script will be executed during boot.
+touch &#x2F;var&#x2F;lock&#x2F;subsys&#x2F;local
+chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local
+&#x2F;home&#x2F;boot_file&#x2F;add_bridge.sh
+#开机自启动frpc服务
+chmod +x &#x2F;home&#x2F;boot_file&#x2F;start_frp.sh
+chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local
+su - root -c &#39;&#x2F;home&#x2F;boot_file&#x2F;start_frp.sh&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在具有公网ip的服务器中的/usr/local/boot_file目录下创建一个脚本start_frp.sh</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sudo nohup &#x2F;usr&#x2F;local&#x2F;frp_0.38.0_linux_amd64&#x2F;frps -c &#x2F;usr&#x2F;local&#x2F;frp_0.38.0_linux_amd64&#x2F;frps.ini &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在服务器的/etc/rc.d目录中的rc.local文件中添加下面的内容</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
+# THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES
+#
+# It is highly advisable to create own systemd services or udev rules
+# to run scripts during boot instead of using this file.
+#
+# In contrast to previous versions due to parallel execution during boot
+# this script will NOT be run after all other services.
+#
+# Please note that you must run &#39;chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local&#39; to ensure
+# that this script will be executed during boot.
+touch &#x2F;var&#x2F;lock&#x2F;subsys&#x2F;local
+chmod +x &#x2F;usr&#x2F;local&#x2F;boot_file&#x2F;start_frp.sh
+chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local
+su - root -c &#39;&#x2F;usr&#x2F;local&#x2F;boot_file&#x2F;start_frp.sh&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>尝试将dell服务器重启，重启完毕后，在随便一个shell远程工具中执行下面的操作，如果能够正确的ssh到内网服务器中，就说明自启动成功了</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">ssh userName@公网ip -p tcp连接方式的remote_port<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre> 
       <!-- reward -->
       
       <div id="reword-out">
@@ -177,7 +274,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/12/28/navicate%E6%B8%85%E9%99%A4%E6%B3%A8%E5%86%8C%E8%A1%A8%EF%BC%8C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E8%AF%95%E7%94%A8/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/12/29/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -188,19 +285,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/12/29/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            frp内网穿透并实现开机自启动
-          
-        </div>
-      </a>
     
-    
-      <a href="/2021/12/24/%E5%9C%A8github%E4%B8%8A%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/" class="article-nav-link">
+      <a href="/2021/12/28/navicate%E6%B8%85%E9%99%A4%E6%B3%A8%E5%86%8C%E8%A1%A8%EF%BC%8C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E8%AF%95%E7%94%A8/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">在github上使用hexo搭建个人博客网站</div>
+        <div class="article-nav-title">navicate清除注册表，重新启动试用</div>
       </a>
     
   </nav>
