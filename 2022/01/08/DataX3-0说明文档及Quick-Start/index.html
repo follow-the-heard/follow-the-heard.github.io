@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>frp内网穿透并实现开机自启动 |  金木研:大数据之路</title>
+      <title>DataX3.0说明文档及Quick Start |  金木研:大数据之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/Kaneki_Ken.ico" />
@@ -56,7 +56,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-frp内网穿透并实现开机自启动"
+  id="post-DataX3-0说明文档及Quick-Start"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -67,7 +67,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  frp内网穿透并实现开机自启动
+  DataX3.0说明文档及Quick Start
 </h1>
  
 
@@ -75,15 +75,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2021/12/29/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/" class="article-date">
-  <time datetime="2021-12-29T12:38:51.000Z" itemprop="datePublished">2021-12-29</time>
+      <a href="/2022/01/08/DataX3-0%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%E5%8F%8AQuick-Start/" class="article-date">
+  <time datetime="2022-01-07T17:30:36.000Z" itemprop="datePublished">2022-01-08</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">851</span>
+            <span class="post-count">328</span>
         </span>
     </span>
 
@@ -92,128 +92,189 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 大致阅读时长≈</span>
-            <span class="post-count">4 分钟</span>
+            <span class="post-count">1 分钟</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>本文中使用到的端口记得在阿里云服务器的安全组中开放该端口</p>
-<p>在公网服务器(阿里云服务器)上执行下面的命令，安装frp</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">wget https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp&#x2F;releases&#x2F;download&#x2F;v0.38.0&#x2F;frp_0.38.0_linux_arm64.tar.gz
--- 解压到&#x2F;usr&#x2F;local
-cd &#x2F;usr&#x2F;local
-tar -zxvf frp_0.38.0_linux_amd64.tar.gz
--- 开始编辑frps.ini
-vi frps.ini
-&#x3D;&#x3D;&#x3D;&#x3D;&gt;
-[common]
-bind_port &#x3D; 5001
-vhost_http_port &#x3D; 3389
-vhost_https_port &#x3D; 3399
-auto_token &#x3D; ******  #这里是自己定义的密钥
-dashboard_addr &#x3D; 0.0.0.0
-dashboard_port &#x3D; 7500
-dashboard_user &#x3D; admin
-dashboard_pwd &#x3D; admin
-    
--- 启动frps服务
-.&#x2F;frps -c .&#x2F;frps.ini
-&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt;后台启动
-nohup .&#x2F;frps -c .&#x2F;frps.ini &amp;
-安装frp客户端  frpc
--- 编辑frpc.ini
-vi frpc.ini
-&#x3D;&#x3D;&#x3D;&#x3D;&gt;  每一行后面的空格记得注释都要去掉，否则可能会报错
-[common]
-server_addr &#x3D; 公网ip   
-server_port &#x3D; 5001
-auto_token &#x3D; ******  #这里是自己定义的密钥，和上面的需保持一致
-admin_addr &#x3D; 0.0.0.0
-admin_port &#x3D; 7500
-admin_user &#x3D; admin
-admin_pwd &#x3D; admin
-log_file &#x3D; .&#x2F;frpc.log
-log_level &#x3D; info
-custom_domains &#x3D; www.letitgo.club
-[http-info]
-type &#x3D; http
-local_ip &#x3D; 内网服务器ip
-local_port &#x3D; 80
-remote_port &#x3D; 3389
-custom_domains &#x3D; http.letitgo.club
-[https-info]
-type &#x3D; https
-local_ip &#x3D; 内网服务器ip
-local_port &#x3D; 8080
-remote_port &#x3D; 3399
-custom_domains &#x3D; https.letitgo.club
-[ssh-info]
-type &#x3D; tcp
-local_ip &#x3D; 127.0.0.1
-local_port &#x3D; 22
-remote_port &#x3D; 6000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <h2 id="1-DataX的说明文档-DataX-Introduction-https-github-com-alibaba-DataX-blob-master-introduction-md"><a href="#1-DataX的说明文档-DataX-Introduction-https-github-com-alibaba-DataX-blob-master-introduction-md" class="headerlink" title="1 DataX的说明文档(DataX-Introduction): https://github.com/alibaba/DataX/blob/master/introduction.md"></a>1 DataX的说明文档(<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/introduction.md"><strong>DataX-Introduction</strong></a>): <a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/introduction.md">https://github.com/alibaba/DataX/blob/master/introduction.md</a></h2><h5 id><a href="#" class="headerlink" title></a></h5><pre class="line-numbers language-none"><code class="language-none">说明文档描述的主要内容：
+    1、DataX3.0的框架设计
+    2、支持哪些异构数据源的数据同步
+    3、每一种reader&#x2F;writer的具体使用文档链接：配置样例，参数说明，功能描述等
+    4、运行原理
+    5、核心优势<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>实现frp的自启动，写一个frpc后台启动的脚本文件 start_frp.sh 在dell服务器(需要穿透的内网服务器)，文件放在/home/boot_file目录下</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
-sudo nohup  &#x2F;home&#x2F;software&#x2F;frp_0.38.0_linux_amd64&#x2F;frpc -c  &#x2F;home&#x2F;software&#x2F;frp_0.38.0_linux_amd64&#x2F;frpc.ini &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>在服务器的/etc/rc.d目录中的rc.local文件中添加下面的内容</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
-# THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES
-#
-# It is highly advisable to create own systemd services or udev rules
-# to run scripts during boot instead of using this file.
-#
-# In contrast to previous versions due to parallel execution during boot
-# this script will NOT be run after all other services.
-#
-# Please note that you must run &#39;chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local&#39; to ensure
-# that this script will be executed during boot.
-touch &#x2F;var&#x2F;lock&#x2F;subsys&#x2F;local
-chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local
-&#x2F;home&#x2F;boot_file&#x2F;add_bridge.sh
-#开机自启动frpc服务
-chmod +x &#x2F;home&#x2F;boot_file&#x2F;start_frp.sh
-chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local
-su - root -c &#39;&#x2F;home&#x2F;boot_file&#x2F;start_frp.sh&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>在具有公网ip的服务器中的/usr/local/boot_file目录下创建一个脚本start_frp.sh</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sudo nohup &#x2F;usr&#x2F;local&#x2F;frp_0.38.0_linux_amd64&#x2F;frps -c &#x2F;usr&#x2F;local&#x2F;frp_0.38.0_linux_amd64&#x2F;frps.ini &amp;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>在服务器的/etc/rc.d目录中的rc.local文件中添加下面的内容</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
-# THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES
-#
-# It is highly advisable to create own systemd services or udev rules
-# to run scripts during boot instead of using this file.
-#
-# In contrast to previous versions due to parallel execution during boot
-# this script will NOT be run after all other services.
-#
-# Please note that you must run &#39;chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local&#39; to ensure
-# that this script will be executed during boot.
-touch &#x2F;var&#x2F;lock&#x2F;subsys&#x2F;local
-chmod +x &#x2F;usr&#x2F;local&#x2F;boot_file&#x2F;start_frp.sh
-chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local
-su - root -c &#39;&#x2F;usr&#x2F;local&#x2F;boot_file&#x2F;start_frp.sh&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>尝试将dell服务器重启，重启完毕后，在随便一个shell远程工具中执行下面的操作，如果能够正确的ssh到内网服务器中，就说明自启动成功了</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">ssh userName@公网ip -p tcp连接方式的remote_port<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre> 
+<h2 id="2-DataX-Github主页地址：-https-github-com-alibaba-DataX"><a href="#2-DataX-Github主页地址：-https-github-com-alibaba-DataX" class="headerlink" title="2 DataX Github主页地址： https://github.com/alibaba/DataX"></a>2 DataX Github主页地址： <a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX">https://github.com/alibaba/DataX</a></h2><h2 id="3-DataX-Quick-Start-https-github-com-alibaba-DataX-blob-master-userGuid-md"><a href="#3-DataX-Quick-Start-https-github-com-alibaba-DataX-blob-master-userGuid-md" class="headerlink" title="3 DataX Quick Start https://github.com/alibaba/DataX/blob/master/userGuid.md"></a>3 DataX Quick Start <a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/userGuid.md">https://github.com/alibaba/DataX/blob/master/userGuid.md</a></h2><h5 id="-1"><a href="#-1" class="headerlink" title></a></h5><h2 id="4-不同Reder-Writer的使用说明文档"><a href="#4-不同Reder-Writer的使用说明文档" class="headerlink" title="4 不同Reder/Writer的使用说明文档"></a>4 不同Reder/Writer的使用说明文档</h2><h3 id="DataX3-0插件体系-摘自DataX官方文档，具体的使用文档点击相应插件的读和写文字，有超链接"><a href="#DataX3-0插件体系-摘自DataX官方文档，具体的使用文档点击相应插件的读和写文字，有超链接" class="headerlink" title="DataX3.0插件体系(摘自DataX官方文档，具体的使用文档点击相应插件的读和写文字，有超链接)"></a>DataX3.0插件体系(摘自DataX官方文档，具体的使用文档点击相应插件的读和写文字，有超链接)</h3><p> 经过几年积累，DataX目前已经有了比较全面的插件体系，主流的RDBMS数据库、NOSQL、大数据计算系统都已经接入。DataX目前支持数据如下：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>数据源</th>
+<th>Reader(读)</th>
+<th>Writer(写)</th>
+<th>文档</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RDBMS 关系型数据库</td>
+<td>MySQL</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/mysqlreader/doc/mysqlreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/mysqlwriter/doc/mysqlwriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Oracle</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/oraclereader/doc/oraclereader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/oraclewriter/doc/oraclewriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>OceanBase</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://open.oceanbase.com/docs/community/oceanbase-database/V3.1.0/use-datax-to-full-migration-data-to-oceanbase">读</a> 、<a target="_blank" rel="noopener" href="https://open.oceanbase.com/docs/community/oceanbase-database/V3.1.0/use-datax-to-full-migration-data-to-oceanbase">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>SQLServer</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/sqlserverreader/doc/sqlserverreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/sqlserverwriter/doc/sqlserverwriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>PostgreSQL</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/postgresqlreader/doc/postgresqlreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/postgresqlwriter/doc/postgresqlwriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>DRDS</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/drdsreader/doc/drdsreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/drdswriter/doc/drdswriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>达梦</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>通用RDBMS(支持所有关系型数据库)</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master">写</a></td>
+</tr>
+<tr>
+<td>阿里云数仓数据存储</td>
+<td>ODPS</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/odpsreader/doc/odpsreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/odpsswriter/doc/odpswriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>ADS</td>
+<td></td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/adswriter/doc/adswriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>OSS</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/ossreader/doc/ossreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/osswriter/doc/osswriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>OCS</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/ocsreader/doc/ocsreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/ocswriter/doc/ocswriter.md">写</a></td>
+</tr>
+<tr>
+<td>NoSQL数据存储</td>
+<td>OTS</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/otsreader/doc/otsreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/otswriter/doc/otswriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Hbase0.94</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hbase094xreader/doc/hbase094xreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hbase094xwriter/doc/hbase094xwriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Hbase1.1</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hbase11xreader/doc/hbase11xreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hbase11xwriter/doc/hbase11xwriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>MongoDB</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/mongoreader/doc/mongoreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/mongowriter/doc/mongowriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Hive</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hdfsreader/doc/hdfsreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hdfswriter/doc/hdfswriter.md">写</a></td>
+</tr>
+<tr>
+<td>无结构化数据存储</td>
+<td>TxtFile</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/txtfilereader/doc/txtfilereader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/txtfilewriter/doc/txtfilewriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>FTP</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/ftpreader/doc/ftpreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/ftpwriter/doc/ftpwriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>HDFS</td>
+<td>√</td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hdfsreader/doc/hdfsreader.md">读</a> 、<a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/hdfswriter/doc/hdfswriter.md">写</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Elasticsearch</td>
+<td></td>
+<td>√</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/elasticsearchwriter/doc/elasticsearchwriter.md">写</a></td>
+</tr>
+</tbody></table>
+ 
       <!-- reward -->
-      
-      <div id="reword-out">
-        <div id="reward-btn">
-          打赏
-        </div>
-      </div>
       
     </div>
     
@@ -276,30 +337,23 @@ su - root -c &#39;&#x2F;usr&#x2F;local&#x2F;boot_file&#x2F;start_frp.sh&#39;<spa
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/12/29/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/01/08/DataX3-0%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%E5%8F%8AQuick-Start/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataX%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/" rel="tag">DataX快速上手指南</a></li></ul>
+
     </footer>
   </div>
 
    
   <nav class="article-nav">
     
-      <a href="/2022/01/08/DataX3-0%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%E5%8F%8AQuick-Start/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            DataX3.0说明文档及Quick Start
-          
-        </div>
-      </a>
     
-    
-      <a href="/2021/12/28/navicate%E6%B8%85%E9%99%A4%E6%B3%A8%E5%86%8C%E8%A1%A8%EF%BC%8C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E8%AF%95%E7%94%A8/" class="article-nav-link">
+      <a href="/2021/12/29/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">navicate清除注册表，重新启动试用</div>
+        <div class="article-nav-title">frp内网穿透并实现开机自启动</div>
       </a>
     
   </nav>
