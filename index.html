@@ -345,6 +345,92 @@
 <td><a target="_blank" rel="noopener" href="https://github.com/alibaba/DataX/blob/master/elasticsearchwriter/doc/elasticsearchwriter.md">写</a></td>
 </tr>
 </tbody></table>
+<p>5 dataX的优化</p>
+<p>关键参数</p>
+<pre class="line-numbers language-none"><code class="language-none">job.setting.speed.channel : channel 并发数
+➢ job.setting.speed.record : 2 全局配置 channel 的 record 限速
+➢ job.setting.speed.byte：全局配置 channel 的 byte 限速
+➢ core.transport.channel.speed.record：单个 channel 的 record 限速
+➢ core.transport.channel.speed.byte：单个 channel 的 byte 限速<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>优化 1：提升每个 channel 的速度</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">在 DataX 内部对每个 Channel 会有严格的速度控制，分两种，一种是控制每秒同步的记
+录数，另外一种是每秒同步的字节数，默认的速度限制是 1MB&#x2F;s，可以根据具体硬件情况设
+置这个 byte 速度或者 record 速度，一般设置 byte 速度，比如：我们可以把单个 Channel 的
+速度上限配置为 5MB<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>9.3 优化 2：提升 DataX Job 内 Channel 并发数</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">并发数 &#x3D; taskGroup 的数量 * 每个 TaskGroup 并发执行的 Task 数 (默认为 5)。
+提升 job 内 Channel 并发有三种配置方式：
+9.3.1 配置全局 Byte 限速以及单 Channel Byte 限速
+Channel 个数 &#x3D; 全局 Byte 限速 &#x2F; 单 Channel Byte 限速<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">&#123;
+ &quot;core&quot;: &#123;
+ &quot;transport&quot;: &#123;
+ &quot;channel&quot;: &#123;
+ &quot;speed&quot;: &#123;
+ &quot;byte&quot;: 1048576
+ &#125;
+ &#125;
+ &#125;
+ &#125;,
+ &quot;job&quot;: &#123;
+ &quot;setting&quot;: &#123;
+ &quot;speed&quot;: &#123;
+ &quot;byte&quot; : 5242880
+ &#125;
+ &#125;,
+ ...
+ &#125; &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>core.transport.channel.speed.byte=1048576，job.setting.speed.byte=5242880，所以 Channel</p>
+<p>个数 = 全局 Byte 限速 / 单 Channel Byte 限速=5242880/1048576=5 个</p>
+<p><strong>9.3.2 配置全局 Record 限速以及单 Channel Record 限速</strong></p>
+<p>Channel 个数 = 全局 Record 限速 / 单 Channel Record 限速</p>
+<pre class="line-numbers language-none"><code class="language-none">&#123;
+ &quot;core&quot;: &#123;
+ &quot;transport&quot;: &#123;
+ &quot;channel&quot;: &#123;
+ &quot;speed&quot;: &#123;
+ &quot;record&quot;: 100
+ &#125;
+ &#125;
+ &#125;
+ &#125;,
+ &quot;job&quot;: &#123;
+ &quot;setting&quot;: &#123;
+ &quot;speed&quot;: &#123; &quot;record&quot; : 500
+ &#125;
+ &#125;,
+ ...
+ &#125; &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>core.transport.channel.speed.record=100 ， job.setting.speed.record=500, 所 以 配 置 全 局</p>
+<p>Record 限速以及单 Channel Record 限速，Channel 个数 = 全局 Record 限速 / 单 Channel </p>
+<p>Record 限速=500/100=5</p>
+<p><strong>9.3.3 直接配置 Channel 个数</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">只有在上面两种未设置才生效，上面两个同时设置是取值小的作为最终的 channel 数。
+&#123;
+ &quot;job&quot;: &#123;
+ &quot;setting&quot;: &#123;
+ &quot;speed&quot;: &#123;
+ &quot;channel&quot; : 5
+ &#125;
+ &#125;,
+ ...
+ &#125; &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>直接配置 job.setting.speed.channel=5，所以 job 内 Channel 并发=5 个</p>
+<p><strong>9.4 优化 3：提高 JVM 堆内存</strong></p>
+<p>当提升 DataX Job 内 Channel 并发数时，内存的占用会显著增加，因为 DataX 作为数据</p>
+<p>交换通道，在内存中会缓存较多的数据。例如 Channel 中会有一个 Buffer，作为临时的数据</p>
+<p>交换的缓冲区，而在部分 Reader 和 Writer 的中，也会存在一些 Buffer，为了防止 OOM 等错</p>
+<p>误，调大 JVM 的堆内存。</p>
+<p>建议将内存设置为 4G 或者 8G，这个也可以根据实际情况来调整。</p>
+<p>调整 JVM xms xmx 参数的两种方式：一种是直接更改 datax.py 脚本；另一种是在启动</p>
+<p>的时候，加上对应的参数，如下：</p>
+<p>python datax/bin/datax.py –jvm=”-Xms8G -Xmx8G” XXX.json</p>
  
       <!-- reward -->
       
